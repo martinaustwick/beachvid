@@ -10,8 +10,9 @@ class Agent
     
     Agent()
     {
-        p = new PVector(width/2, height/2);
-        v = new PVector(random(-1,1), random(-1,1));
+        p = new PVector(width/2, 3*height/4);
+        float theta = random(TWO_PI);
+        v = new PVector(sin(theta), cos(theta));
         //v.y=0;
     }
     
@@ -42,9 +43,24 @@ class Agent
             float zwing = 0.5*wlength*(1+sin(phase-frameCount/thisCycle));
             float ztip = 0.5*wlength*(cos(phase-frameCount/thisCycle));
             
-            
+            //bird
             bezier(0,0.5*ztip, ztip+wlength, -zwing, ztip+wlength, -zwing, 2*wlength+ztip, -ztip);
             bezier(0,0.5*ztip, -ztip-wlength, -zwing, -ztip-wlength, -zwing, -2*wlength-ztip, -ztip);
+            
+            fill(0);
+            //bat
+            beginShape();
+              vertex(0,0.5*ztip);
+              bezierVertex(ztip+wlength, -zwing, ztip+wlength, -zwing, 2*wlength+ztip, -ztip);
+              bezierVertex(-ztip+wlength, zwing, -ztip+wlength, zwing, 0, wlength+ztip);
+            endShape(CLOSE);
+            
+            scale(-1,1);
+            beginShape();
+              vertex(0,0.5*ztip);
+              bezierVertex(ztip+wlength, -zwing, ztip+wlength, -zwing, 2*wlength+ztip, -ztip);
+              bezierVertex(-ztip+wlength, zwing, -ztip+wlength, zwing, 0, wlength+ztip);
+            endShape(CLOSE);
             
             if(drawV)
             {
