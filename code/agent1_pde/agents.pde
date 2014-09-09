@@ -1,4 +1,6 @@
-float cycle = 10;
+float cycle = 5;
+boolean drawV = false;
+
 
 class Agent
 {
@@ -10,7 +12,7 @@ class Agent
     {
         p = new PVector(width/2, height/2);
         v = new PVector(random(-1,1), random(-1,1));
-        v.y=0;
+        //v.y=0;
     }
     
     void accel()
@@ -39,10 +41,17 @@ class Agent
             float wlength = 10;
             float zwing = 0.5*wlength*(1+sin(phase-frameCount/thisCycle));
             float ztip = 0.5*wlength*(cos(phase-frameCount/thisCycle));
+            
+            
             bezier(0,0.5*ztip, ztip+wlength, -zwing, ztip+wlength, -zwing, 2*wlength+ztip, -ztip);
             bezier(0,0.5*ztip, -ztip-wlength, -zwing, -ztip-wlength, -zwing, -2*wlength-ztip, -ztip);
             
+            if(drawV)
+            {
+                line(0,0,v.x*100, v.y*100);
+                
+            }
         popMatrix();
-        v.y+=0.5*(1/thisCycle)*sin(phase-frameCount/thisCycle);
+        v.y+=0.01*(1/thisCycle)*sin(phase-frameCount/thisCycle);
     }
 }
