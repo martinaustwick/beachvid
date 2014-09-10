@@ -1,6 +1,18 @@
 float cycle = 5;
 boolean drawV = false;
 
+float startR = 100;
+
+
+float friendWeight = 0.2;
+float friendRadius = 300;
+float personalSpace = 150;
+float friendView = PI*0.3;
+
+float centreWeight = 0.0;
+
+float obstacleWeight = -0.1;
+float obstacleRadius = 2500;
 
 class Agent
 {
@@ -13,9 +25,10 @@ class Agent
         p = new PVector(width/2, 3*height/4);
         
         float theta = random(TWO_PI);
-        p = new PVector(random(-30, 30), random(-30, 30), random(-30, 30));
+        p = new PVector(random(-startR, startR), random(-startR, startR), random(-startR, startR));
+        p = new PVector(-width, -height, -height);
         v = new PVector(sin(theta), cos(theta), random(5));
-        v = new PVector(random(-1,1),random(-1,1), random(-1,1));
+        //v = new PVector(random(-1,1),random(-1,1), random(-1,1));
         //v = new PVector(0,0, random(5));
         //v.div(5);
         //v = new PVector(1, 0, 1);
@@ -32,33 +45,35 @@ class Agent
             if(ag!=this)
             { 
                 PVector diff = PVector.sub(ag.p, p);
-                if(PVector.angleBetween(diff,v)<PI*0.2)
+                if(abs(PVector.angleBetween(diff,v))<friendView)
                 {
+                    
                     float dist = diff.mag();
                     PVector direction = v.get();
-                    if(dist<100)
+                    if(dist<friendRadius)
                     {
                         diff.normalize();
-                        
                         direction.normalize();
-                        PVector correct = PVector.sub(diff, v);
-                        //correct.mult(-100/dist);
-                        correct.mult(100/dist);
                         
-                        if(dist<50) correct.mult(-1);
+                        //correct movement vs direction of object
+                        PVector correct = PVector.sub(diff, direction);
+                        correct.mult(friendWeight);
+                        //correct.mult(100/dist);
+                        
+                        if(dist<personalSpace) correct.mult(-1);
                         v.add(correct);
                         
-                        PVector match = ag.v.get();
-                        match.normalize();
-                        match.mult(1);
+                        //match speed
+                        PVector match = PVector.sub(ag.v.get(), v.get());
+                        //match.normalize();
+                        match.mult(0);
                         v.add(match);
                     }
                     //centre on zero
                     PVector centre = p.get();
                     centre.normalize();
                     PVector cCorrect = PVector.sub(centre, direction);
-                    
-                    cCorrect.mult(1);
+                    cCorrect.mult(centreWeight);
                     v.sub(cCorrect);
                 }
             }

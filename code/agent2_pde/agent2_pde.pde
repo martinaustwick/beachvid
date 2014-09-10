@@ -6,7 +6,9 @@ ArrayList<PVector> shape;
 float speed = 5; 
 boolean capture = false;
 
+//camera positions
 float theta = 0;
+float camRad = 1000;
 
 void setup()
 {
@@ -26,15 +28,15 @@ void setup()
 //    shape.add(new PVector(3*width/4, height/4));
 //    shape.add(new PVector(width, height));
     
-    shape.add(new PVector(0,0,200));
-
+    shape.add(new PVector(-300,-300,-200));
+    shape.add(new PVector(100,100,400));
 }
 
 void draw()
 {
    //background(0,0,150);
    background(255);
-   camera(2*width*sin(theta), 0, 2*width*cos(theta), 0,0,0,0,1,0);
+   camera(camRad*sin(theta), 0, camRad*cos(theta), 0,0,0,0,1,0);
    
    for(Agent a: agents)
    {

@@ -32,11 +32,13 @@ PVector intersect(PVector x0, PVector x1, PVector p, PVector v)
 }
 
 float radius = 500;
-float weight = 0;
+
+
+
 PVector pointAvoid (PVector point, PVector p, PVector v)
 {
     PVector avoid = new PVector(0,0);
-    if(PVector.dist(point, p)<radius)
+    if(PVector.dist(point, p)<obstacleRadius)
     {
         PVector diff = PVector.sub(point, p);
         float dist = diff.mag();
@@ -46,7 +48,7 @@ PVector pointAvoid (PVector point, PVector p, PVector v)
         
         avoid = PVector.sub(v, diff);
         //avoid.normalize();
-        avoid.mult(weight);
+        avoid.mult(obstacleWeight);
     }
     
     return avoid;
