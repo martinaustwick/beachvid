@@ -10,9 +10,11 @@ boolean capture = false;
 float theta = 0;
 float camRad = 1000;
 
+//black bg
+
 void setup()
 {
-    size(600, 600, P3D);
+    size(1600, 1000, P3D);
     
     agents = new ArrayList<Agent>();
     
@@ -35,7 +37,7 @@ void setup()
 void draw()
 {
    //background(0,0,150);
-   background(255);
+   background(0);
    camera(camRad*sin(theta), 0, camRad*cos(theta), 0,0,0,0,1,0);
    
    for(Agent a: agents)
